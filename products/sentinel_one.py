@@ -654,7 +654,7 @@ class SentinelOne(Product):
                     username = event[1]
                     path = event[2]
                     command_line = event[3]
-                    additional_data = (event[8], event[9], event[10], event[11],'None','None','None','None','None','None','None','None','None','None','None','None')
+                    additional_data = (event[8], event[9], event[10], event[11], event[12], event[13], event[14], event[15], event[16], event[17], event[18,], event[6], event[20], event[21], event[22], event[23])
                 else:
                     hostname = event['endpointName']
                     username = event['srcProcUser']
@@ -761,7 +761,9 @@ class SentinelOne(Product):
                         merged_query += ' | group count() by endpoint.name, src.process.user, ' \
                                         'src.process.image.path, src.process.cmdline, src.process.name, ' \
                                         'src.process.publisher, url.address, tgt.file.internalName, src.process.startTime, ' \
-                                        'site.id, site.name, src.process.storyline.id'
+                                        'site.id, site.name, src.process.storyline.id, src.process.displayName, src.process.parent.image.path, ' \
+                                        'tgt.process.displayName, tgt.process.image.path, tgt.file.path, tgt.file.sha1, tgt.file.sha256, ' \
+                                        'src.ip.address, dst.ip.address, event.dns.response, event.category'
                     
                     self.log.debug(f'Appending query to executor: {merged_query}')
                     futures.append(executor.submit(self._run_query, merged_query, start_date, end_date, merged_tag,
